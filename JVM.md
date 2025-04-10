@@ -137,6 +137,45 @@
  * 填充字段: 按照8字节填充
  ```
 
+16. 什么是线程和进程
+ ```
+ * 进程：程序执行的一次过程，会产生一个进程，是程序执行的基本单位。
+ * 线程：比进程更小的单位，一个进程会产生很多线程，同一个进程的多个线程共享进程的堆与方法区资源，每个线程有各自的栈和本地方法栈
+ ```
+
+ 17. 简要说明线程和进程的关系，区别以及优缺点
+ ```
+ 1. 进程：各自独立，资源独立。
+ 2. 线程：一个进程可以划分多个线程，线程共享同一个进程的堆区资源，其中栈和本地方法栈以及程序计数器，每个线程私有，本地方法栈和方法栈私有是为了保证线程的局部变量不相互影响，同时程序计数器私有是为了线程切换时能够回到上次执行的位置。
+ ```
+
+ 18. 线程的生命周期？
+ ```
+ 1. 初始状态：线程被创建（new）,未执行start方法。
+ 2. 运行状态：线程已启动，可能正在执行或等待CPU时间片。
+ 3. 阻塞状态：等待获取监视器锁以进入同步块/方法，或者在调用Object.wait()之后重新进入同步块/方法。
+ 4. 等待状态：无限期等待其他线程的特定动作，如调用Object.wait()、Thread.join()、LockSupport.park()。
+ 5. 超时等待状态：有限时间的等待，如Thread.sleep(long)、Object.wait(long)、Thread.join(long)等
+ 6. 终止状态：线程执行完毕或异常终止。
+状态转化：
+   NEW → start() → RUNNABLE
+   RUNNABLE → 获取锁失败 → BLOCKED
+   RUNNABLE → wait()/join() → WAITING
+   RUNNABLE → sleep()/wait(timeout) → TIMED_WAITING
+   BLOCKED → 锁可用 → RUNNABLE
+   WAITING → notify()/notifyAll() → BLOCKED（需重新获取锁） → RUNNABLE
+   TIMED_WAITING → 超时/唤醒 → RUNNABLE（或BLOCKED，若需锁）
+   RUNNABLE → run()结束 → TERMINATED
+注意：
+   锁的释放：wait()会释放锁，而sleep()和join()不会释放持有的锁。
+ ```
+
+ 19. 什么是线程的上下文切换？
+ ```
+ 
+
+ ```
+
 ### 如何定位cpu飙高问题？
 ```angular2html
 1. 使用top 查看cpu占用最严重的进程id
